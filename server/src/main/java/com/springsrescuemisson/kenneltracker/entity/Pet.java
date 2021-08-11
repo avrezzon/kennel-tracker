@@ -20,8 +20,7 @@ public class Pet {
 	private String color;
 	private String kennelNumber;
 	private Boolean restricted;
-	private Set<Client> owners;
-	
+		
 	//TODO look into the many to many relationships with JPA
 	// https://www.baeldung.com/hibernate-one-to-manyhttps://www.baeldung.com/hibernate-many-to-many
 	

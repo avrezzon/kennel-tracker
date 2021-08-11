@@ -16,6 +16,6 @@ public class Client {
 	private String phoneNumber;
 	private String emergencyContact; //Phone number of the contact
 	private String shelterType;
-	private String bedNumber;
+	private Integer bedNumber;
 	
 }

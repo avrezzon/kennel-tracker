@@ -1,0 +1,23 @@
+DROP TABLE IF EXISTS CLIENT;
+DROP TABLE IF EXISTS PET;
+
+CREATE TABLE CLIENT(
+	id NUMBER PRIMARY KEY,
+	firstName VARCHAR2(50),
+	lastName VARCHAR2(50),
+	phoneNumber VARCHAR2(50),
+	emergencyContact VARCHAR2(50),
+	shelterType VARCHAR2(50),
+	bedNumber NUMBER
+);
+
+CREATE TABLE PET(
+	id NUMBER PRIMARY KEY,
+	name VARCHAR2(50),
+	type VARCHAR2(50),
+	breed VARCHAR2(50),
+	gender VARCHAR2(10),
+	color VARCHAR2(50),
+	kennelNumber NUMBER,
+	restricted BOOLEAN
+);

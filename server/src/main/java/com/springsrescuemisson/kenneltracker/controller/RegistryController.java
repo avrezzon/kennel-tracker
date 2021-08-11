@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.springsrescuemisson.kenneltracker.message.PetRegistrationRequest;
 
 @RestController
-@RequestMapping("registry")
+@RequestMapping("/registry")
 public class RegistryController {
 
 	@PostMapping("/assignPet")
