@@ -1,6 +1,7 @@
 package com.springsrescuemisson.kenneltracker.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.springsrescuemisson.kenneltracker.entity.Client;
 import com.springsrescuemisson.kenneltracker.exception.ValidationException;
+import com.springsrescuemisson.kenneltracker.repository.ClientRepository;
 import com.springsrescuemisson.kenneltracker.service.RegistrationService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +26,10 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/registry/client")
 public class ClientController {
-	
+		
+		@Autowired
+		ClientRepository clients;
+		
 		@Autowired
 		RegistrationService registrationService;
 	
@@ -59,22 +64,26 @@ public class ClientController {
 		}
 		
 		@GetMapping
-		public ResponseEntity<List<Client>> findAllClients(){
-			return null;
+		public ResponseEntity<List<Client>> findAllClients(){		
+			List<Client> registeredClients = (List<Client>) clients.findAll();
+			return new ResponseEntity<>(registeredClients, HttpStatus.OK);
 		}
 		
 		@GetMapping("/{id}")
 		public ResponseEntity<Client> obtainClientInfo(@PathVariable String id){
-			return null;
+			Optional<Client> client = clients.findById(Integer.valueOf(id));
+			return (client.isPresent()) ? (new ResponseEntity<>(client.get(), HttpStatus.OK)) : (new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
 		}
 		
 		@PutMapping
 		public ResponseEntity<Client> updateClient(@RequestBody Client client){
+			//TODO review https://medium.com/techno101/partial-updates-patch-in-spring-boot-63ff35582250
 			return null;
 		}
 		
-		@DeleteMapping
-		public ResponseEntity<Client> unregisterClient(){
+		@DeleteMapping("/{id}")
+		public ResponseEntity unregisterClient(@PathVariable String id){
+			clients.deleteById(Integer.valueOf(id)); //FIXME look at documentation if the client doesnt exist
 			return null;
 		}
 }

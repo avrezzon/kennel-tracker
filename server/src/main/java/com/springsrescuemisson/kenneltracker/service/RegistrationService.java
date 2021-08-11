@@ -28,6 +28,9 @@ public class RegistrationService {
 
 		ValidationService.validate(client);
 
+		if(clientRepo.existsById(client.getId()))
+			throw new ValidationException("Client already exists.");
+		
 		clientRepo.save(client);
 
 		return "";
