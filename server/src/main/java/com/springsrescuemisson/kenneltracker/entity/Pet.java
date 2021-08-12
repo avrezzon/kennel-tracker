@@ -4,6 +4,7 @@ import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 import lombok.Data;
 
@@ -20,8 +21,7 @@ public class Pet {
 	private String color;
 	private String kennelNumber;
 	private Boolean restricted;
-		
-	//TODO look into the many to many relationships with JPA
-	// https://www.baeldung.com/hibernate-one-to-manyhttps://www.baeldung.com/hibernate-many-to-many
 	
+	@ManyToMany
+	private Set<Client> owners;
 }

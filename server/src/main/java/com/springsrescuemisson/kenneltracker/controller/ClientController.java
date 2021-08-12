@@ -33,6 +33,8 @@ public class ClientController {
 		@Autowired
 		RegistrationService registrationService;
 	
+		//TODO add the ability to register a client with or without the pet owner
+		
 		@PostMapping
 		public ResponseEntity<String> registerClient(@RequestBody Client client) {
 			
