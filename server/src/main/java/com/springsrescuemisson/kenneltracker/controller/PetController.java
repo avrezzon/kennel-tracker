@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.springsrescuemisson.kenneltracker.entity.Client;
 import com.springsrescuemisson.kenneltracker.entity.Pet;
 import com.springsrescuemisson.kenneltracker.exception.ValidationException;
 import com.springsrescuemisson.kenneltracker.repository.PetRepository;
