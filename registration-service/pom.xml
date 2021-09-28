@@ -9,8 +9,8 @@
 		<version>2.4.0</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.springsrescuemisson</groupId>
-	<artifactId>kennel-tracker</artifactId>
+	<groupId>com.springsrescuemisson.kenneltracker</groupId>
+	<artifactId>registration-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>kennel-tracker</name>
 	<description>Backend application to assist with tracking activities within the shelter</description>
