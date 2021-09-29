@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.springsrescuemisson.kenneltracker.dto.ClientDto;
 import com.springsrescuemisson.kenneltracker.entity.Client;
 import com.springsrescuemisson.kenneltracker.exception.ValidationException;
+import com.springsrescuemisson.kenneltracker.mapper.ClientMapper;
 import com.springsrescuemisson.kenneltracker.repository.ClientRepository;
-import com.springsrescuemisson.kenneltracker.service.RegistrationService;
+import com.springsrescuemisson.kenneltracker.service.ValidationService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,10 +33,8 @@ public class ClientController {
 		ClientRepository clients;
 		
 		@Autowired
-		RegistrationService registrationService;
-	
-		//TODO add the ability to register a client with or without the pet owner
-		
+		ClientMapper mapper;
+			
 		@PostMapping
 		public ResponseEntity<String> registerClient(@RequestBody Client client) {
 			
@@ -46,29 +46,51 @@ public class ClientController {
 			
 			try{
 				
-				registrationService.register(client);
-				message = "Sucessfully Registered Client";
-				response = new ResponseEntity<>(message, HttpStatus.OK);
+				ValidationService.validate(client);
+				clients.save(client);
+				response = new ResponseEntity<>("Sucessfully Registered Client", HttpStatus.OK);
 				
 			}catch(ValidationException ve) {
 				
 				message = String.format("Failed to register client due to invlaid request. Reason: %s", ve.getMessage());
 				response = new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
 		
-			}catch(Exception e) {
-				
-				message = String.format("Failed to register client. Reason: %s", e.getMessage());
-				response = new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
-		
 			}
 			
 			return response;
 		}
 		
+		@PutMapping("/{id}")
+		public ResponseEntity<Client> updateClient(@PathVariable String id, @RequestBody ClientDto dto){
+			Client client;
+			
+			Optional<Client> potentialClient = clients.findById(Integer.valueOf(id));
+			
+			if(potentialClient.isEmpty()) {
+				client = new Client();
+				client.setId(Integer.valueOf(id));
+				mapper.updateClientFromDto(dto, client);
+				client = clients.save(client);
+				return new ResponseEntity<>(client, HttpStatus.CREATED);
+			}else {
+				client = potentialClient.get();
+				mapper.updateClientFromDto(dto, client);
+				try {
+					ValidationService.validate(client);
+					clients.save(client);
+					return new ResponseEntity<>(client, HttpStatus.OK);
+				} catch (ValidationException e) {
+					return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+				}
+				
+			}
+	
+		}
+		
 		@GetMapping
 		public ResponseEntity<List<Client>> findAllClients(){		
 			List<Client> registeredClients = (List<Client>) clients.findAll();
-			return new ResponseEntity<>(registeredClients, HttpStatus.OK);
+			return (registeredClients.isEmpty()) ? new ResponseEntity<>(HttpStatus.NOT_FOUND): new ResponseEntity<>(registeredClients, HttpStatus.OK);
 		}
 		
 		@GetMapping("/{id}")
@@ -77,15 +99,15 @@ public class ClientController {
 			return (client.isPresent()) ? (new ResponseEntity<>(client.get(), HttpStatus.OK)) : (new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
 		}
 		
-		@PutMapping
-		public ResponseEntity<Client> updateClient(@RequestBody Client client){
-			//TODO review https://medium.com/techno101/partial-updates-patch-in-spring-boot-63ff35582250
-			return null;
-		}
 		
 		@DeleteMapping("/{id}")
-		public ResponseEntity unregisterClient(@PathVariable String id){
-			clients.deleteById(Integer.valueOf(id)); //FIXME look at documentation if the client doesnt exist
-			return null;
+		public ResponseEntity<HttpStatus> unregisterClient(@PathVariable String id){
+			Optional<Client> potentialClient = clients.findById(Integer.valueOf(id));
+			if(potentialClient.isPresent()) {
+				clients.deleteById(Integer.valueOf(id));
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}else {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
 		}
 }

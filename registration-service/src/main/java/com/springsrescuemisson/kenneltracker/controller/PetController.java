@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.springsrescuemisson.kenneltracker.entity.Pet;
 import com.springsrescuemisson.kenneltracker.exception.ValidationException;
 import com.springsrescuemisson.kenneltracker.repository.PetRepository;
-import com.springsrescuemisson.kenneltracker.service.RegistrationService;
+import com.springsrescuemisson.kenneltracker.service.ValidationService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,10 +28,7 @@ public class PetController {
 
 	@Autowired
 	PetRepository pets;
-	
-	@Autowired
-	RegistrationService registrationService;
-	
+		
 	@PostMapping
 	public ResponseEntity<String> registerPet(@RequestBody Pet pet) {
 		ResponseEntity<String> response;
@@ -41,20 +38,14 @@ public class PetController {
 		log.debug("Requested Pet to register: {}", pet);
 		
 		try{
-			
-			registrationService.register(pet);
-			message = "Sucessfully Registered Petpet";
-			response = new ResponseEntity<>(message, HttpStatus.OK);
+			ValidationService.validate(pet);
+			pets.save(pet);
+			response = new ResponseEntity<>("Sucessfully Registered Pet", HttpStatus.OK);
 			
 		}catch(ValidationException ve) {
 			
 			message = String.format("Failed to register pet due to invlaid request. Reason: %s", ve.getMessage());
 			response = new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
-	
-		}catch(Exception e) {
-			
-			message = String.format("Failed to register pet. Reason: %s", e.getMessage());
-			response = new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
 	
 		}
 		
