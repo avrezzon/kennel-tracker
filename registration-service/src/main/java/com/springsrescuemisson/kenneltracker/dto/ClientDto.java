@@ -1,14 +1,16 @@
 package com.springsrescuemisson.kenneltracker.dto;
 
-import java.util.Optional;
-
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class ClientDto {
-	private Optional<Integer> bedNumber;
-	private Optional<String> emergencyContact;
-	private Optional<String> firstName;
-	private Optional<String> lastName;
-	
+	private Integer id;
+	private String firstName;
+	private String lastName;
+	private String phoneNumber;
+	private String emergencyContact;
+	private String shelterType;
+	private Integer bedNumber;
 }

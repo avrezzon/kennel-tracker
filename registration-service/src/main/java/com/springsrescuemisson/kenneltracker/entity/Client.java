@@ -1,15 +1,19 @@
 package com.springsrescuemisson.kenneltracker.entity;
 
-import java.util.Set;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import java.util.Set;
 
-import lombok.Data;
-
-@Data
+@Getter
+@Setter
+@ToString
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Client {
 
 	@Id

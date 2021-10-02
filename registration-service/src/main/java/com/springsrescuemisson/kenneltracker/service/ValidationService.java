@@ -2,16 +2,15 @@ package com.springsrescuemisson.kenneltracker.service;
 
 
 
-import org.apache.commons.lang3.StringUtils;
-
-import com.springsrescuemisson.kenneltracker.entity.Client;
-import com.springsrescuemisson.kenneltracker.entity.Pet;
+import com.springsrescuemisson.kenneltracker.dto.ClientDto;
+import com.springsrescuemisson.kenneltracker.dto.PetDto;
 import com.springsrescuemisson.kenneltracker.exception.ValidationException;
+import org.apache.commons.lang3.StringUtils;
 
 public class ValidationService {
 
-	public static void validate(final Client client) throws ValidationException {
-		if(client.getId() <= 0 || client.getId() == null)
+	public static void validate(final ClientDto client) throws ValidationException {
+		if(client.getId() == null || client.getId() <= 0 )
 			throw new ValidationException("Client ID is not a valid number");
 		
 		if(StringUtils.isEmpty(client.getFirstName()))
@@ -22,12 +21,13 @@ public class ValidationService {
 		
 		if(StringUtils.isEmpty(client.getPhoneNumber())) //TODO add regex for this, might want to also validate on the client side
 			throw new ValidationException("Client phone number is required");
-		
-		if(StringUtils.isEmpty(client.getEmergencyContact())) //TODO add regex for this, might want to also validate on the client side
-			throw new ValidationException("Client emergency contact number is required");
+
+		//FIXME this should be optional
+//		if(StringUtils.isEmpty(client.getEmergencyContact())) //TODO add regex for this, might want to also validate on the client side
+//			throw new ValidationException("Client emergency contact number is required");
 	}
 	
-	public static void validate(final Pet pet) throws ValidationException{
+	public static void validate(final PetDto pet) throws ValidationException{
 		if(StringUtils.isEmpty(pet.getName()))
 			throw new ValidationException("Pet name is required");
 		

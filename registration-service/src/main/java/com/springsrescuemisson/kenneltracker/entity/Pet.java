@@ -1,14 +1,15 @@
 package com.springsrescuemisson.kenneltracker.entity;
 
-import java.util.Set;
+import lombok.Builder;
+import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-
-import lombok.Data;
+import java.util.Set;
 
 @Data
+@Builder
 @Entity
 public class Pet {
 
@@ -21,7 +22,7 @@ public class Pet {
 	private String color;
 	private String kennelNumber;
 	private Boolean restricted;
-	
+
 	@ManyToMany
 	private Set<Client> owners;
 }
