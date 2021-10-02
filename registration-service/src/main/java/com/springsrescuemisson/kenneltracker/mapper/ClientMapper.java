@@ -2,12 +2,11 @@ package com.springsrescuemisson.kenneltracker.mapper;
 
 import com.springsrescuemisson.kenneltracker.dto.ClientDto;
 import com.springsrescuemisson.kenneltracker.entity.Client;
-import org.springframework.stereotype.Component;
 
-@Component
-public class ClientMapper implements Mapper<ClientDto, Client>{
-    @Override
-    public Client convertToEntity(ClientDto dto) {
+
+public class ClientMapper{
+
+    public static Client convertToEntity(ClientDto dto) {
         return Client.builder()
                 .id(dto.getId())
                 .firstName(dto.getFirstName())
@@ -19,8 +18,7 @@ public class ClientMapper implements Mapper<ClientDto, Client>{
                 .build();
     }
 
-    @Override
-    public ClientDto convertToDto(Client entity) {
+    public static ClientDto convertToDto(Client entity) {
         return ClientDto.builder()
                 .id(entity.getId())
                 .firstName(entity.getFirstName())

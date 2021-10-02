@@ -8,12 +8,13 @@ import com.springsrescuemisson.kenneltracker.repository.ClientRepository;
 import com.springsrescuemisson.kenneltracker.service.ValidationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ClientController {
 
-		private final ClientRepository clients;
+		private final ClientRepository repository;
 		private final ClientMapper mapper;
 			
 		@PostMapping
@@ -37,7 +38,7 @@ public class ClientController {
 				
 				ValidationService.validate(client);
 				Client user = mapper.convertToEntity(client);
-				clients.save(user);
+				repository.save(user);
 				response = new ResponseEntity<>("Sucessfully Registered Client", HttpStatus.OK);
 				
 			}catch(ValidationException ve) {
@@ -49,55 +50,47 @@ public class ClientController {
 			
 			return response;
 		}
-//
-//		@PutMapping("/{id}")
-//		public ResponseEntity<Client> updateClient(@PathVariable String id, @RequestBody ClientDto dto){
-//			Client client;
-//
-//			Optional<Client> potentialClient = clients.findById(Integer.valueOf(id));
-//
-//			if(potentialClient.isEmpty()) {
-//				client = new Client();
-//				client.setId(Integer.valueOf(id));
-//				mapper.updateClientFromDto(dto, client);
-//				client = clients.save(client);
-//				return new ResponseEntity<>(client, HttpStatus.CREATED);
-//			}else {
-//				client = potentialClient.get();
-//				mapper.updateClientFromDto(dto, client);
-//				try {
-//					ValidationService.validate(client);
-//					clients.save(client);
-//					return new ResponseEntity<>(client, HttpStatus.OK);
-//				} catch (ValidationException e) {
-//					return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//				}
-//
-//			}
-//
-//		}
-//
-//		@GetMapping
-//		public ResponseEntity<List<Client>> findAllClients(){
-//			List<Client> registeredClients = (List<Client>) clients.findAll();
-//			return (registeredClients.isEmpty()) ? new ResponseEntity<>(HttpStatus.NOT_FOUND): new ResponseEntity<>(registeredClients, HttpStatus.OK);
-//		}
-//
-//		@GetMapping("/{id}")
-//		public ResponseEntity<Client> obtainClientInfo(@PathVariable String id){
-//			Optional<Client> client = clients.findById(Integer.valueOf(id));
-//			return (client.isPresent()) ? (new ResponseEntity<>(client.get(), HttpStatus.OK)) : (new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
-//		}
-//
-//
-//		@DeleteMapping("/{id}")
-//		public ResponseEntity<HttpStatus> unregisterClient(@PathVariable String id){
-//			Optional<Client> potentialClient = clients.findById(Integer.valueOf(id));
-//			if(potentialClient.isPresent()) {
-//				clients.deleteById(Integer.valueOf(id));
-//				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//			}else {
-//				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//			}
-//		}
+
+		@PutMapping("/{id}")
+		public ResponseEntity<ClientDto> updateClient(@PathVariable String id, @RequestBody ClientDto dto){
+
+			Optional<Client> potentialClient = repository.findById(Integer.valueOf(id));
+			if(potentialClient.isEmpty()){
+				try{
+					ValidationService.validate(dto);
+					Client persistedEntity = repository.save(ClientMapper.convertToEntity(dto));
+					return new ResponseEntity<>(ClientMapper.convertToDto(persistedEntity),HttpStatus.CREATED);
+				}catch(ValidationException ve){
+					return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+				}
+			}else {
+				throw new NotImplementedException("Need to patch the entity");
+			}
+		}
+
+		//TODO add security for only admins to retrieve this info
+		@GetMapping
+		public ResponseEntity<List<Client>> findAllClients(){
+			List<Client> registeredClients = (List<Client>) repository.findAll();
+			return (registeredClients.isEmpty()) ? new ResponseEntity<>(HttpStatus.NOT_FOUND): new ResponseEntity<>(registeredClients, HttpStatus.OK);
+		}
+
+		//TODO Add security mapping for this
+		@GetMapping("/{id}")
+		public ResponseEntity<Client> obtainClientInfo(@PathVariable String id){
+			Optional<Client> client = repository.findById(Integer.valueOf(id));
+			return (client.isPresent()) ? (new ResponseEntity<>(client.get(), HttpStatus.OK)) : (new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
+		}
+
+
+		@DeleteMapping("/{id}")
+		public ResponseEntity<HttpStatus> unregisterClient(@PathVariable String id){
+			Optional<Client> potentialClient = repository.findById(Integer.valueOf(id));
+			if(potentialClient.isPresent()) {
+				repository.deleteById(Integer.valueOf(id));
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}else {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+		}
 }

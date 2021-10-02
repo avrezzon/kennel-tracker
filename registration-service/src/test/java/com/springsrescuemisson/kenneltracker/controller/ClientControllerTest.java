@@ -12,11 +12,22 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 public class ClientControllerTest {
+
+    public static final int ID = 1234;
+    public static final String PATH_ID = "1234";
+    public static final String FIRST_NAME = "John";
+    public static final String LAST_NAME = "Doe";
+    public static final String PHONE_NUMBER = "7198881122";
 
     @Mock
     ClientRepository repository;
@@ -41,7 +52,7 @@ public class ClientControllerTest {
     @Test
     public void receivedInvaildClientToRegister(){
         ClientDto client = ClientDto.builder()
-                .firstName("John")
+                .firstName(FIRST_NAME)
                 .bedNumber(1)
                 .build();
         ResponseEntity<String> response = controller.registerClient(client);
@@ -53,10 +64,10 @@ public class ClientControllerTest {
     public void receivedValidClientToRegister_success(){
 
         ClientDto client = ClientDto.builder()
-                .id(1234)
-                .firstName("John")
-                .lastName("Doe")
-                .phoneNumber("7198881122")
+                .id(ID)
+                .firstName(FIRST_NAME)
+                .lastName(LAST_NAME)
+                .phoneNumber(PHONE_NUMBER)
                 .build();
         when(repository.save(any(Client.class))).thenReturn(new Client());
 
@@ -65,4 +76,110 @@ public class ClientControllerTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
     }
+
+    @Test
+    public void updateClient_clientDidntExist_invalidRequest(){
+        ClientDto client = ClientDto.builder()
+                .id(ID)
+                .firstName(FIRST_NAME)
+                .build();
+        when(repository.findById(ID)).thenReturn(Optional.empty());
+
+        ResponseEntity<ClientDto> response = controller.updateClient(PATH_ID, client);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertNull(response.getBody());
+    }
+
+
+    @Test
+    public void updateClient_clientDidntExist_createdNewClient(){
+        ClientDto client = ClientDto.builder()
+                .id(ID)
+                .firstName(FIRST_NAME)
+                .lastName(LAST_NAME)
+                .phoneNumber(PHONE_NUMBER)
+                .build();
+
+        when(repository.findById(ID)).thenReturn(Optional.empty());
+        when(repository.save(any())).thenReturn(new Client());
+
+        ResponseEntity<ClientDto> response = controller.updateClient(PATH_ID, client);
+
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertNotNull(response.getBody());
+    }
+
+    @Test
+    public void updateClient_clientExists_updatingNewFields(){
+        //TODO revisit how to patch the entity with JPA
+
+
+
+
+
+
+    }
+
+    @Test
+    public void findAllClients_nothingFound(){
+        when(repository.findAll()).thenReturn(Collections.EMPTY_LIST);
+
+        ResponseEntity<List<Client>> response = controller.findAllClients();
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertNull(response.getBody());
+    }
+
+    @Test
+    public void findAllClients_success(){
+        when(repository.findAll()).thenReturn( Arrays.asList(new Client()));
+
+        ResponseEntity<List<Client>> response = controller.findAllClients();
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertFalse(response.getBody().isEmpty());
+    }
+
+    @Test
+    public void obtainClientInfo_clientNotFound(){
+
+        when(repository.findById(ID)).thenReturn(Optional.empty());
+
+        ResponseEntity<Client> response = controller.obtainClientInfo(PATH_ID);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertNull(response.getBody());
+    }
+
+    @Test
+    public void obtainClientInfo_success(){
+        when(repository.findById(ID)).thenReturn(Optional.of(new Client()));
+
+        ResponseEntity<Client> response = controller.obtainClientInfo(PATH_ID);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+
+    }
+
+    @Test
+    public void unregisterClient_clientNotFound(){
+        when(repository.findById(ID)).thenReturn(Optional.empty());
+
+        ResponseEntity<HttpStatus> response = controller.unregisterClient(PATH_ID);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    public void unregisterClient_success(){
+        when(repository.findById(ID)).thenReturn(Optional.of(new Client()));
+
+        ResponseEntity<HttpStatus> response = controller.unregisterClient(PATH_ID);
+
+        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+    }
+
+
 }
