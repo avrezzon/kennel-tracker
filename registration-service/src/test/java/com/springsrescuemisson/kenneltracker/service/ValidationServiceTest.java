@@ -3,7 +3,7 @@ package com.springsrescuemisson.kenneltracker.service;
 import com.springsrescuemisson.kenneltracker.dto.ClientDto;
 import com.springsrescuemisson.kenneltracker.dto.PetDto;
 import com.springsrescuemisson.kenneltracker.exception.ValidationException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,8 +13,10 @@ public class ValidationServiceTest {
     PetDto pet;
 
     @Test
-    public void verifyClientDto_idIsNull(){
-        client = ClientDto.builder().build();
+    public void verifyClientDto_idContainsInvalidNumber(){
+        client = ClientDto.builder()
+                .id(0)
+                .build();
 
         Throwable exception = assertThrows(
                 ValidationException.class, () -> {
@@ -26,10 +28,8 @@ public class ValidationServiceTest {
     }
 
     @Test
-    public void verifyClientDto_idContainsInvalidNumber(){
-        client = ClientDto.builder()
-                .id(0)
-                .build();
+    public void verifyClientDto_idIsNull(){
+        client = ClientDto.builder().build();
 
         Throwable exception = assertThrows(
                 ValidationException.class, () -> {

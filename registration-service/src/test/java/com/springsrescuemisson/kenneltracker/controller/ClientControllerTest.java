@@ -4,21 +4,18 @@ import com.springsrescuemisson.kenneltracker.dto.ClientDto;
 import com.springsrescuemisson.kenneltracker.entity.Client;
 import com.springsrescuemisson.kenneltracker.mapper.ClientMapper;
 import com.springsrescuemisson.kenneltracker.repository.ClientRepository;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-@WebMvcTest
 public class ClientControllerTest {
 
     @Mock
@@ -30,13 +27,13 @@ public class ClientControllerTest {
     ClientController controller;
     AutoCloseable closeable;
 
-    @Before
+    @BeforeEach
     public void setup(){
         closeable = MockitoAnnotations.openMocks(this);
         controller = new ClientController(repository, mapper);
     }
 
-    @After
+    @AfterEach
     public void releaseMocks() throws Exception {
         closeable.close();
     }
@@ -68,8 +65,4 @@ public class ClientControllerTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
     }
-
-
-
-
 }

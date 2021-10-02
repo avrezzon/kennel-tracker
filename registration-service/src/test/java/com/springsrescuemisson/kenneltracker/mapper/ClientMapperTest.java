@@ -2,8 +2,8 @@ package com.springsrescuemisson.kenneltracker.mapper;
 
 import com.springsrescuemisson.kenneltracker.dto.ClientDto;
 import com.springsrescuemisson.kenneltracker.entity.Client;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -29,7 +29,7 @@ public class ClientMapperTest {
                                 .emergencyContact("7198882233")
                                 .build();
 
-    @Before
+    @BeforeEach
     public void setup(){
         mapper = new ClientMapper();
     }
