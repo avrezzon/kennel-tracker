@@ -21,10 +21,6 @@ public class ValidationService {
 		
 		if(StringUtils.isEmpty(client.getPhoneNumber())) //TODO add regex for this, might want to also validate on the client side
 			throw new ValidationException("Client phone number is required");
-
-		//FIXME this should be optional
-//		if(StringUtils.isEmpty(client.getEmergencyContact())) //TODO add regex for this, might want to also validate on the client side
-//			throw new ValidationException("Client emergency contact number is required");
 	}
 	
 	public static void validate(final PetDto pet) throws ValidationException{

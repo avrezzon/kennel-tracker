@@ -12,6 +12,7 @@ import java.util.Set;
 @ToString
 @Entity
 @Builder
+@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 public class Client {

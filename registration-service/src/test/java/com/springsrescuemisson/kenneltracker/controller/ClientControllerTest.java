@@ -1,6 +1,5 @@
-package com.springsrescuemisson.kenneltracker;
+package com.springsrescuemisson.kenneltracker.controller;
 
-import com.springsrescuemisson.kenneltracker.controller.ClientController;
 import com.springsrescuemisson.kenneltracker.dto.ClientDto;
 import com.springsrescuemisson.kenneltracker.entity.Client;
 import com.springsrescuemisson.kenneltracker.mapper.ClientMapper;
@@ -14,7 +13,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import static org.junit.Assert.assertEquals;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
