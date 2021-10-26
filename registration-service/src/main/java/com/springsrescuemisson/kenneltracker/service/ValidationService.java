@@ -2,14 +2,15 @@ package com.springsrescuemisson.kenneltracker.service;
 
 
 
-import com.springsrescuemisson.kenneltracker.dto.ClientDto;
-import com.springsrescuemisson.kenneltracker.dto.PetDto;
-import com.springsrescuemisson.kenneltracker.exception.ValidationException;
 import org.apache.commons.lang3.StringUtils;
+
+import com.springsrescuemisson.kenneltracker.client.dto.ClientRegistrationDto;
+import com.springsrescuemisson.kenneltracker.exception.ValidationException;
+import com.springsrescuemisson.kenneltracker.pet.PetDto;
 
 public class ValidationService {
 
-	public static void validate(final ClientDto client) throws ValidationException {
+	public static void validate(final ClientRegistrationDto client) throws ValidationException {
 		if(client.getId() == null || client.getId() <= 0 )
 			throw new ValidationException("Client ID is not a valid number");
 		

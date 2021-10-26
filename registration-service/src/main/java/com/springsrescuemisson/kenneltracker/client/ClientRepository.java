@@ -1,8 +1,6 @@
-package com.springsrescuemisson.kenneltracker.repository;
+package com.springsrescuemisson.kenneltracker.client;
 
 import org.springframework.data.repository.CrudRepository;
-
-import com.springsrescuemisson.kenneltracker.entity.Client;
 
 public interface ClientRepository extends CrudRepository<Client, Integer> {
 

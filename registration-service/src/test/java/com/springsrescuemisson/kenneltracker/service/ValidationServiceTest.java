@@ -1,20 +1,24 @@
 package com.springsrescuemisson.kenneltracker.service;
 
-import com.springsrescuemisson.kenneltracker.dto.ClientDto;
-import com.springsrescuemisson.kenneltracker.dto.PetDto;
-import com.springsrescuemisson.kenneltracker.exception.ValidationException;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import com.springsrescuemisson.kenneltracker.client.dto.ClientDto;
+import com.springsrescuemisson.kenneltracker.client.dto.ClientRegistrationDto;
+import com.springsrescuemisson.kenneltracker.exception.ValidationException;
+import com.springsrescuemisson.kenneltracker.pet.PetDto;
 
 public class ValidationServiceTest {
 
-    ClientDto client;
+	ClientRegistrationDto client;
     PetDto pet;
 
     @Test
     public void verifyClientDto_idContainsInvalidNumber(){
-        client = ClientDto.builder()
+        client = ClientRegistrationDto.builder()
                 .id(0)
                 .build();
 
@@ -29,7 +33,7 @@ public class ValidationServiceTest {
 
     @Test
     public void verifyClientDto_idIsNull(){
-        client = ClientDto.builder().build();
+        client = ClientRegistrationDto.builder().build();
 
         Throwable exception = assertThrows(
                 ValidationException.class, () -> {
@@ -42,7 +46,7 @@ public class ValidationServiceTest {
 
     @Test
     public void verifyClientDto_firstNameIsMissing(){
-        client = ClientDto.builder()
+        client = ClientRegistrationDto.builder()
                 .id(1234)
                 .build();
 
@@ -57,7 +61,7 @@ public class ValidationServiceTest {
 
     @Test
     public void verifyClientDto_lastNameIsMissing(){
-        client = ClientDto.builder()
+        client = ClientRegistrationDto.builder()
                 .id(1234)
                 .firstName("John")
                 .build();
@@ -73,7 +77,7 @@ public class ValidationServiceTest {
 
     @Test
     public void verifyClientDto_phoneNumberIsMissing(){
-        client = ClientDto.builder()
+        client = ClientRegistrationDto.builder()
                 .id(1234)
                 .firstName("John")
                 .lastName("Doe")
@@ -90,7 +94,7 @@ public class ValidationServiceTest {
 
     @Test
     public void verifyClientDto_success(){
-        client = ClientDto.builder()
+        client = ClientRegistrationDto.builder()
                 .id(1234)
                 .firstName("John")
                 .lastName("Doe")

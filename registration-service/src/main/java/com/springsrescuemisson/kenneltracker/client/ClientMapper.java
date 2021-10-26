@@ -1,12 +1,14 @@
-package com.springsrescuemisson.kenneltracker.mapper;
+package com.springsrescuemisson.kenneltracker.client;
 
-import com.springsrescuemisson.kenneltracker.dto.ClientDto;
-import com.springsrescuemisson.kenneltracker.entity.Client;
+import java.util.stream.Collectors;
 
+import com.springsrescuemisson.kenneltracker.client.dto.ClientDto;
+import com.springsrescuemisson.kenneltracker.client.dto.ClientRegistrationDto;
+import com.springsrescuemisson.kenneltracker.pet.PetMapper;
 
 public class ClientMapper{
 
-    public static Client convertToEntity(ClientDto dto) {
+    public static Client convertToEntity(ClientRegistrationDto dto) {
         return Client.builder()
                 .id(dto.getId())
                 .firstName(dto.getFirstName())
@@ -23,10 +25,10 @@ public class ClientMapper{
                 .id(entity.getId())
                 .firstName(entity.getFirstName())
                 .lastName(entity.getLastName())
-                .phoneNumber(entity.getPhoneNumber())
-                .emergencyContact(entity.getEmergencyContact())
-                .shelterType(entity.getShelterType())
-                .bedNumber(entity.getBedNumber())
+                .pets(entity.getPets()
+                		.stream()
+                		.map(PetMapper::convertToDto)
+                		.collect(Collectors.toList()))
                 .build();
     }
 }

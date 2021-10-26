@@ -1,11 +1,22 @@
-package com.springsrescuemisson.kenneltracker.entity;
+package com.springsrescuemisson.kenneltracker.client;
 
-import lombok.*;
+import java.util.Collections;
+import java.util.Optional;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import java.util.Set;
+
+import com.springsrescuemisson.kenneltracker.pet.Pet;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
@@ -26,6 +37,8 @@ public class Client {
 	private String shelterType;
 	private Integer bedNumber;
 	
+	@Builder.Default
 	@ManyToMany(targetEntity = Pet.class, mappedBy = "owners")
-	private Set<Pet> pets;
+	private Set<Pet> pets = Collections.emptySet();
+
 }

@@ -1,9 +1,17 @@
-package com.springsrescuemisson.kenneltracker.controller;
+package com.springsrescuemisson.kenneltracker.client;
 
-import com.springsrescuemisson.kenneltracker.dto.ClientDto;
-import com.springsrescuemisson.kenneltracker.entity.Client;
-import com.springsrescuemisson.kenneltracker.mapper.ClientMapper;
-import com.springsrescuemisson.kenneltracker.repository.ClientRepository;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,14 +20,8 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import com.springsrescuemisson.kenneltracker.client.dto.ClientDto;
+import com.springsrescuemisson.kenneltracker.client.dto.ClientRegistrationDto;
 
 public class ClientControllerTest {
 
@@ -32,16 +34,13 @@ public class ClientControllerTest {
     @Mock
     ClientRepository repository;
 
-    @Mock
-    ClientMapper mapper;
-
     ClientController controller;
     AutoCloseable closeable;
 
     @BeforeEach
     public void setup(){
         closeable = MockitoAnnotations.openMocks(this);
-        controller = new ClientController(repository, mapper);
+        controller = new ClientController(repository);
     }
 
     @AfterEach
@@ -51,9 +50,8 @@ public class ClientControllerTest {
 
     @Test
     public void receivedInvaildClientToRegister(){
-        ClientDto client = ClientDto.builder()
+        ClientRegistrationDto client = ClientRegistrationDto.builder()
                 .firstName(FIRST_NAME)
-                .bedNumber(1)
                 .build();
         ResponseEntity<String> response = controller.registerClient(client);
 
@@ -63,7 +61,7 @@ public class ClientControllerTest {
     @Test
     public void receivedValidClientToRegister_success(){
 
-        ClientDto client = ClientDto.builder()
+    	ClientRegistrationDto client = ClientRegistrationDto.builder()
                 .id(ID)
                 .firstName(FIRST_NAME)
                 .lastName(LAST_NAME)
@@ -79,7 +77,7 @@ public class ClientControllerTest {
 
     @Test
     public void updateClient_clientDidntExist_invalidRequest(){
-        ClientDto client = ClientDto.builder()
+    	ClientRegistrationDto client = ClientRegistrationDto.builder()
                 .id(ID)
                 .firstName(FIRST_NAME)
                 .build();
@@ -94,7 +92,7 @@ public class ClientControllerTest {
 
     @Test
     public void updateClient_clientDidntExist_createdNewClient(){
-        ClientDto client = ClientDto.builder()
+    	ClientRegistrationDto client = ClientRegistrationDto.builder()
                 .id(ID)
                 .firstName(FIRST_NAME)
                 .lastName(LAST_NAME)
@@ -112,13 +110,24 @@ public class ClientControllerTest {
 
     @Test
     public void updateClient_clientExists_updatingNewFields(){
-        //TODO revisit how to patch the entity with JPA
+    	ClientRegistrationDto existingClient = ClientRegistrationDto.builder()
+                .id(ID)
+                .firstName(FIRST_NAME)
+                .lastName(LAST_NAME)
+                .phoneNumber(PHONE_NUMBER)
+                .build();
+    	
+    	ClientRegistrationDto updatedClient = existingClient.toBuilder()
+    			.phoneNumber("7198883344")
+    			.build();
 
+        when(repository.findById(ID)).thenReturn(Optional.of(ClientMapper.convertToEntity(existingClient)));
+        when(repository.save(any())).thenReturn(ClientMapper.convertToEntity(updatedClient));
 
+        ResponseEntity<ClientDto> response = controller.updateClient(PATH_ID, updatedClient);
 
-
-
-
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
     }
 
     @Test

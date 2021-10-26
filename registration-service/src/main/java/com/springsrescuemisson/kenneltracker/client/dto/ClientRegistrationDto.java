@@ -1,11 +1,11 @@
-package com.springsrescuemisson.kenneltracker.dto;
+package com.springsrescuemisson.kenneltracker.client.dto;
 
 import lombok.Builder;
 import lombok.Data;
 
 @Data
-@Builder
-public class ClientDto {
+@Builder(toBuilder = true)
+public class ClientRegistrationDto {
 	private Integer id;
 	private String firstName;
 	private String lastName;
@@ -13,4 +13,5 @@ public class ClientDto {
 	private String emergencyContact;
 	private String shelterType;
 	private Integer bedNumber;
+
 }
