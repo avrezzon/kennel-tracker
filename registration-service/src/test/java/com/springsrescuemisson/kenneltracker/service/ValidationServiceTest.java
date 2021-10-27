@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 
 import com.springsrescuemisson.kenneltracker.client.dto.ClientRegistrationDto;
 import com.springsrescuemisson.kenneltracker.exception.ValidationException;
-import com.springsrescuemisson.kenneltracker.pet.PetDto;
 import com.springsrescuemisson.kenneltracker.pet.PetRegistrationDto;
 
 public class ValidationServiceTest {
@@ -108,8 +107,38 @@ public class ValidationServiceTest {
     }
 
     @Test
-    public void verifyPetDto_nameIsMissing(){
+    public void verifyPetDto_idIsNull(){
         pet = PetRegistrationDto.builder().build();
+
+        Throwable exception = assertThrows(
+                ValidationException.class, () -> {
+                    ValidationService.validate(pet);
+                }
+        );
+
+        assertEquals("Pet ID is not a valid number", exception.getMessage());
+    }
+
+    @Test
+    public void verifyPetDto_idContainsInvalidNumber(){
+        pet = PetRegistrationDto.builder()
+                .id(0)
+                .build();
+
+        Throwable exception = assertThrows(
+                ValidationException.class, () -> {
+                    ValidationService.validate(pet);
+                }
+        );
+
+        assertEquals("Pet ID is not a valid number", exception.getMessage());
+    }
+        
+    @Test
+    public void verifyPetDto_nameIsMissing(){
+        pet = PetRegistrationDto.builder()
+        		.id(1)
+        		.build();
 
         Throwable exception = assertThrows(
                     ValidationException.class, () -> {
@@ -123,6 +152,7 @@ public class ValidationServiceTest {
     @Test
     public void verifyPetDto_typeIsMissing(){
         pet = PetRegistrationDto.builder()
+        		.id(1)
                 .name("Fluffy")
                 .build();
 
@@ -137,7 +167,9 @@ public class ValidationServiceTest {
 
     @Test
     public void verifyPetDto_breedIsMissing(){
-        pet = PetRegistrationDto.builder().name("Fluffy")
+        pet = PetRegistrationDto.builder()
+        		.id(1)
+        		.name("Fluffy")
                 .type("Dog")
                 .build();
 
@@ -152,7 +184,9 @@ public class ValidationServiceTest {
 
     @Test
     public void verifyPetDto_kennelNumberIsMissing(){
-        pet = PetRegistrationDto.builder().name("Fluffy")
+        pet = PetRegistrationDto.builder()
+        		.id(1)
+        		.name("Fluffy")
                 .type("Dog")
                 .breed("Husky")
                 .build();
@@ -168,7 +202,9 @@ public class ValidationServiceTest {
 
     @Test
     public void verifyPetDto_success(){
-        pet = PetRegistrationDto.builder().name("Fluffy")
+        pet = PetRegistrationDto.builder()
+        		.id(1)
+        		.name("Fluffy")
                 .type("Dog")
                 .breed("Husky")
                 .kennelNumber("12")

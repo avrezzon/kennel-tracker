@@ -132,7 +132,7 @@ public class ClientControllerTest {
 
     @Test
     public void findAllClients_nothingFound(){
-        when(repository.findAll()).thenReturn(Collections.EMPTY_LIST);
+        when(repository.findAll()).thenReturn(Collections.emptyList());
 
         ResponseEntity<List<Client>> response = controller.findAllClients();
 

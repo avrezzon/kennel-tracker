@@ -1,7 +1,6 @@
 package com.springsrescuemisson.kenneltracker.client;
 
 import java.util.Collections;
-import java.util.Optional;
 import java.util.Set;
 
 import javax.persistence.Entity;

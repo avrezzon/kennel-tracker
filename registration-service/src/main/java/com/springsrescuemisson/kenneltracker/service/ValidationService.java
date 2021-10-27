@@ -26,7 +26,7 @@ public class ValidationService {
 	
 	public static void validate(final PetRegistrationDto pet) throws ValidationException{
 		if(pet.getId() == null || pet.getId() <= 0 )
-			throw new ValidationException("Client ID is not a valid number");
+			throw new ValidationException("Pet ID is not a valid number");
 		if(StringUtils.isEmpty(pet.getName()))
 			throw new ValidationException("Pet name is required");
 		

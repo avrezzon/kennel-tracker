@@ -103,7 +103,7 @@ public class PetControllerTest {
                 .build();
 
         when(repository.findById(PET_ID)).thenReturn(Optional.empty());
-        when(repository.save(any())).thenReturn(new Pet());
+        when(repository.save(any())).thenReturn(PetMapper.convertToEntity(pet));
 
         ResponseEntity<PetDto> response = controller.updatePet(PATH_ID, pet);
 
@@ -136,7 +136,7 @@ public class PetControllerTest {
 
     @Test
     public void findAllPets_nothingFound(){
-        when(repository.findAll()).thenReturn(Collections.EMPTY_LIST);
+        when(repository.findAll()).thenReturn(Collections.emptyList());
 
         ResponseEntity<List<Pet>> response = controller.findAllPets();
 

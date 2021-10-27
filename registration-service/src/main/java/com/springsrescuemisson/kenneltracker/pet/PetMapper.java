@@ -1,11 +1,8 @@
 package com.springsrescuemisson.kenneltracker.pet;
 
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.springsrescuemisson.kenneltracker.client.ClientMapper;
-
-import ch.qos.logback.core.net.server.Client;
 
 public class PetMapper {
 

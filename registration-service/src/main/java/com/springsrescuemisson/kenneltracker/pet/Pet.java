@@ -1,6 +1,7 @@
 package com.springsrescuemisson.kenneltracker.pet;
 
-import lombok.*;
+import java.util.Collections;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -8,7 +9,12 @@ import javax.persistence.ManyToMany;
 
 import com.springsrescuemisson.kenneltracker.client.Client;
 
-import java.util.Set;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Builder
 @Getter
@@ -29,6 +35,7 @@ public class Pet {
 	private String kennelNumber; //Foreign key
 	private Boolean restricted;
 
+	@Builder.Default
 	@ManyToMany
-	private Set<Client> owners;
+	private List<Client> owners =  Collections.emptyList();
 }
