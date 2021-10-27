@@ -6,15 +6,15 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
-import com.springsrescuemisson.kenneltracker.client.dto.ClientDto;
 import com.springsrescuemisson.kenneltracker.client.dto.ClientRegistrationDto;
 import com.springsrescuemisson.kenneltracker.exception.ValidationException;
 import com.springsrescuemisson.kenneltracker.pet.PetDto;
+import com.springsrescuemisson.kenneltracker.pet.PetRegistrationDto;
 
 public class ValidationServiceTest {
 
 	ClientRegistrationDto client;
-    PetDto pet;
+    PetRegistrationDto pet;
 
     @Test
     public void verifyClientDto_idContainsInvalidNumber(){
@@ -109,7 +109,7 @@ public class ValidationServiceTest {
 
     @Test
     public void verifyPetDto_nameIsMissing(){
-        pet = PetDto.builder().build();
+        pet = PetRegistrationDto.builder().build();
 
         Throwable exception = assertThrows(
                     ValidationException.class, () -> {
@@ -122,7 +122,7 @@ public class ValidationServiceTest {
 
     @Test
     public void verifyPetDto_typeIsMissing(){
-        pet = PetDto.builder()
+        pet = PetRegistrationDto.builder()
                 .name("Fluffy")
                 .build();
 
@@ -137,7 +137,7 @@ public class ValidationServiceTest {
 
     @Test
     public void verifyPetDto_breedIsMissing(){
-        pet = PetDto.builder().name("Fluffy")
+        pet = PetRegistrationDto.builder().name("Fluffy")
                 .type("Dog")
                 .build();
 
@@ -152,7 +152,7 @@ public class ValidationServiceTest {
 
     @Test
     public void verifyPetDto_kennelNumberIsMissing(){
-        pet = PetDto.builder().name("Fluffy")
+        pet = PetRegistrationDto.builder().name("Fluffy")
                 .type("Dog")
                 .breed("Husky")
                 .build();
@@ -168,7 +168,7 @@ public class ValidationServiceTest {
 
     @Test
     public void verifyPetDto_success(){
-        pet = PetDto.builder().name("Fluffy")
+        pet = PetRegistrationDto.builder().name("Fluffy")
                 .type("Dog")
                 .breed("Husky")
                 .kennelNumber("12")

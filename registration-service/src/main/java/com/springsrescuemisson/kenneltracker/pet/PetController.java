@@ -1,5 +1,7 @@
 package com.springsrescuemisson.kenneltracker.pet;
 
+import com.springsrescuemisson.kenneltracker.client.Client;
+import com.springsrescuemisson.kenneltracker.client.ClientMapper;
 import com.springsrescuemisson.kenneltracker.exception.ValidationException;
 import com.springsrescuemisson.kenneltracker.service.ValidationService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +23,7 @@ public class PetController {
     private final PetRepository repository;
 
     @PostMapping
-    public ResponseEntity<String> registerPet(@RequestBody PetDto pet) {
+    public ResponseEntity<String> registerPet(@RequestBody PetRegistrationDto pet) {
 
         ResponseEntity<String> response;
         String message;
@@ -47,20 +49,18 @@ public class PetController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PetDto> updatePet(@PathVariable String id, @RequestBody PetDto dto) {
+    public ResponseEntity<PetDto> updatePet(@PathVariable String id, @RequestBody PetRegistrationDto dto) {
 
-        Optional<Pet> potentialPet = repository.findById(Integer.valueOf(id));
-        if (potentialPet.isEmpty()) {
-            try {
-                ValidationService.validate(dto);
-                Pet persistedEntity = repository.save(PetMapper.convertToEntity(dto));
-                return new ResponseEntity<>(PetMapper.convertToDto(persistedEntity), HttpStatus.CREATED);
-            } catch (ValidationException ve) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-        } else {
-            throw new NotImplementedException("Need to patch the entity");
-        }
+		try {
+			ValidationService.validate(dto);
+		} catch (ValidationException e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		Optional<Pet> potentialPet = repository.findById(Integer.valueOf(id));
+		Pet persistedEntity = repository.save(PetMapper.convertToEntity(dto));
+		return new ResponseEntity<>(PetMapper.convertToDto(persistedEntity, false),
+				(potentialPet.isEmpty())? HttpStatus.CREATED: HttpStatus.OK);
     }
 
     //TODO add security for only admins to retrieve this info

@@ -59,7 +59,7 @@ public class ClientController {
 
 		Optional<Client> potentialClient = repository.findById(Integer.valueOf(id));
 		Client persistedEntity = repository.save(ClientMapper.convertToEntity(dto));
-		return new ResponseEntity<>(ClientMapper.convertToDto(persistedEntity),
+		return new ResponseEntity<>(ClientMapper.convertToDto(persistedEntity, false),
 				(potentialClient.isEmpty())? HttpStatus.CREATED: HttpStatus.OK);
 	}
 

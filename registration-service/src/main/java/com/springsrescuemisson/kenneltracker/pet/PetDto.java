@@ -1,8 +1,6 @@
 package com.springsrescuemisson.kenneltracker.pet;
 
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Stream;
+import java.util.List;
 
 import com.springsrescuemisson.kenneltracker.client.dto.ClientDto;
 
@@ -15,11 +13,7 @@ public class PetDto {
 
     private String id;
     private String name;
-    private String type; //This is the kind of pet (dog, cat, etc.)
-    private String breed;
-    private String gender;
-    private String color;
+    private String type;
     private String kennelNumber;
-    
-    private Optional<Set<ClientDto>> owners;
+    private List<ClientDto> owners;
 }

@@ -9,7 +9,7 @@ import ch.qos.logback.core.net.server.Client;
 
 public class PetMapper {
 
-	public static Pet convertToEntity(PetDto dto) {
+	public static Pet convertToEntity(PetRegistrationDto dto) {
 
 		return Pet.builder()
 				.id(Integer.valueOf(dto.getId()))
@@ -23,14 +23,16 @@ public class PetMapper {
 
 	}
 
-	public static PetDto convertToDto(Pet entity) {
+	public static PetDto convertToDto(Pet entity, boolean displayOwners) {
 		return PetDto.builder()
 				.id(entity.getId().toString())
-				.breed(entity.getBreed())
-				.color(entity.getColor())
-				.gender(entity.getGender())
+				.type(entity.getType())
 				.kennelNumber(entity.getKennelNumber())
 				.name(entity.getName())
+				.owners(entity.getOwners()
+						.stream()
+						.map(x -> ClientMapper.convertToDto(x, false))
+						.collect(Collectors.toList()))
 				.build();
 	}
 }

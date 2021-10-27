@@ -20,14 +20,14 @@ public class ClientMapper{
                 .build();
     }
 
-    public static ClientDto convertToDto(Client entity) {
+    public static ClientDto convertToDto(Client entity, boolean displayPets) {
         return ClientDto.builder()
                 .id(entity.getId())
                 .firstName(entity.getFirstName())
                 .lastName(entity.getLastName())
                 .pets(entity.getPets()
                 		.stream()
-                		.map(PetMapper::convertToDto)
+                		.map(x -> PetMapper.convertToDto(x, false))
                 		.collect(Collectors.toList()))
                 .build();
     }

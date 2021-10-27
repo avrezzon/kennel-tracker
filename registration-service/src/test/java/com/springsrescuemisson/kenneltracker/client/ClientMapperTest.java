@@ -7,8 +7,6 @@ import java.util.Collections;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.springsrescuemisson.kenneltracker.client.Client;
-import com.springsrescuemisson.kenneltracker.client.ClientMapper;
 import com.springsrescuemisson.kenneltracker.client.dto.ClientDto;
 
 public class ClientMapperTest {
@@ -36,6 +34,7 @@ public class ClientMapperTest {
         mapper = new ClientMapper();
     }
 
+    //FIXME
     //@Test
     public void convertToEntity_success(){
 //        Client actual = mapper.convertToEntity(dto);
@@ -44,7 +43,7 @@ public class ClientMapperTest {
 
     @Test
     public void convertToDto_success(){
-        ClientDto actual = mapper.convertToDto(entity);
+        ClientDto actual = mapper.convertToDto(entity, false);
         assertEquals(dto, actual);
     }
 

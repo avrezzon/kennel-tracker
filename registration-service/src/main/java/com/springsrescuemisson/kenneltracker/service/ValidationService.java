@@ -6,7 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.springsrescuemisson.kenneltracker.client.dto.ClientRegistrationDto;
 import com.springsrescuemisson.kenneltracker.exception.ValidationException;
-import com.springsrescuemisson.kenneltracker.pet.PetDto;
+import com.springsrescuemisson.kenneltracker.pet.PetRegistrationDto;
 
 public class ValidationService {
 
@@ -24,7 +24,9 @@ public class ValidationService {
 			throw new ValidationException("Client phone number is required");
 	}
 	
-	public static void validate(final PetDto pet) throws ValidationException{
+	public static void validate(final PetRegistrationDto pet) throws ValidationException{
+		if(pet.getId() == null || pet.getId() <= 0 )
+			throw new ValidationException("Client ID is not a valid number");
 		if(StringUtils.isEmpty(pet.getName()))
 			throw new ValidationException("Pet name is required");
 		
