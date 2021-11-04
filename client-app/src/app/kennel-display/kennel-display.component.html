@@ -1,1 +1,10 @@
-<p>kennel-display works!</p>
+
+<button (click)="toggelDisplay()">View Current Kennel Assignments</button>
+<div *ngIf="display">
+    <ul>
+       <li *ngFor="let kennel of kennelLayout">
+           {{kennel.id}}
+           {{kennel.pet.petType}} {{kennel.pet.name}}
+       </li> 
+    </ul>
+</div>
