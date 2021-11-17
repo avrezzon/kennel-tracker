@@ -11,9 +11,9 @@ import { Pet } from '../models/Pet';
 export class Tab1Page implements OnInit {
 
   petFilterMatch: Pet[] = [];
-  checkedOutPets: Pet[] = [];
-
   petFilter: string = '';
+  checkedOutPets: Pet[] = [];
+  
 
   constructor(public kennelService: KennelService) {}
   
@@ -33,6 +33,18 @@ export class Tab1Page implements OnInit {
     petFilter = petFilter.toLocaleLowerCase();
     return this.kennelService.pets
       .filter((pet: Pet) => pet.name.toLocaleLowerCase().includes(petFilter));
+  }
+
+  checkIn(pet: Pet){
+    console.log(pet.name)
+    console.log(new Date());
+    this.checkedOutPets = [...this.checkedOutPets].filter(x => x.name.toLocaleLowerCase() !== pet.name.toLocaleLowerCase())
+  }
+
+  checkOut(pet: Pet){
+    console.log(pet.name)
+    console.log(new Date());
+    this.checkedOutPets.push(pet);
   }
 
 }
