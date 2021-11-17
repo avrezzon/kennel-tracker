@@ -1,4 +1,4 @@
-import { CheckIn } from "./CheckIn";
+import { TimeRecord } from "./TimeRecord";
 import { EmergencyContact } from "./EmergencyContact";
 import { Client } from "./Client";
 
@@ -10,6 +10,6 @@ export interface Pet{
     age: number;
     owners: Client[];
     emergencyContacts: EmergencyContact[];
-    checkIns: CheckIn[];
+    checkIns: TimeRecord[];
     violations: number;
 }

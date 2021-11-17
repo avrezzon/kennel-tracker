@@ -11,6 +11,8 @@ export class KennelService {
   kennelLayout?: Kennel[];
   pets: Pet[];
   owners: Client[];
+  checkOutDuration: number = 30;
+  maxTimeInKennel: number = 180;
 
   constructor() {
     this.getKennel();

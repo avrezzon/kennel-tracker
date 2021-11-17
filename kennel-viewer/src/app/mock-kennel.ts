@@ -28,7 +28,11 @@ export const MOCK_KENNEL_LAYOUT: Kennel[] = [
                     id: 1
                 }
             ],
-            checkIns: [], //TODO
+            checkIns: [
+                {
+                    checkOut: new Date('2021-11-15T07:00:00'),
+                }
+            ],
             violations: 0
         }
     },
@@ -66,7 +70,11 @@ export const MOCK_KENNEL_LAYOUT: Kennel[] = [
                     id: 1
                 }
             ],
-            checkIns: [], //TODO
+            checkIns: [
+                {
+                    checkOut: new Date('2021-11-15T07:00:00'),
+                }
+            ],
             violations: 0
         }
     },
@@ -82,8 +90,7 @@ export const MOCK_KENNEL_LAYOUT: Kennel[] = [
                 {
                     firstName: 'Anthony',
                     lastName: 'Smith',
-                    phone: '719333666',
-                    clientId: 8001,
+                    phone: '719333666',                    clientId: 8001,
                     shelterType: 'Entry',
                     bedNumber: 2
                 },
@@ -104,7 +111,11 @@ export const MOCK_KENNEL_LAYOUT: Kennel[] = [
                     id: 1
                 }
             ],
-            checkIns: [], //TODO
+            checkIns: [
+                {
+                    checkOut: new Date('2021-11-15T07:00:00'),
+                }
+            ],
             violations: 0
         }
     },
@@ -142,7 +153,11 @@ export const MOCK_KENNEL_LAYOUT: Kennel[] = [
                     id: 1
                 }
             ],
-            checkIns: [], //TODO
+            checkIns: [
+                {
+                    checkOut: new Date('2021-11-15T07:00:00'),
+                }
+            ],
             violations: 0
         }
     },
@@ -172,7 +187,11 @@ export const MOCK_KENNEL_LAYOUT: Kennel[] = [
                     id: 1
                 }
             ],
-            checkIns: [], //TODO
+            checkIns: [
+                {
+                    checkOut: new Date('2021-11-15T07:00:00'),
+                }
+            ],
             violations: 0
         }
     }
@@ -204,7 +223,11 @@ export const MOCK_SEARCHED_PETS: Pet[] = [
                 id: 1
             }
         ],
-        checkIns: [], //TODO
+        checkIns: [
+            {
+                checkOut: new Date('2021-11-15T07:00:00'),
+            }
+        ],
         violations: 0
     },
     {
@@ -231,7 +254,11 @@ export const MOCK_SEARCHED_PETS: Pet[] = [
                 id: 1
             }
         ],
-        checkIns: [], //TODO
+        checkIns: [
+            {
+                checkOut: new Date('2021-11-15T07:00:00'),
+            }
+        ],
         violations: 0
     }
 
@@ -263,7 +290,11 @@ export const MOCK_CHECKED_OUT_PETS: Pet[] = [
                 id: 1
             }
         ],
-        checkIns: [], //TODO
+        checkIns: [
+            {
+                checkOut: new Date('2021-11-15T07:00:00'),
+            }
+        ],
         violations: 0
     },
     {
@@ -290,7 +321,11 @@ export const MOCK_CHECKED_OUT_PETS: Pet[] = [
                 id: 1
             }
         ],
-        checkIns: [], //TODO
+        checkIns: [
+            {
+                checkOut: new Date('2021-11-15T07:00:00'),
+            }
+        ],
         violations: 0
     }
 

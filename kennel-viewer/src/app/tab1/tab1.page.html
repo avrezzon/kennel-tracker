@@ -15,15 +15,16 @@
   </ion-header>
 
   <!--Holds the value of the current searched text-->
-  <ion-searchbar placeholder="Search For Pet Name" (ionChange)="search(petName.value)" petName.value="" #petName></ion-searchbar>
+  <!-- (ionChange)="search(petName.value)" petName.value="" #petName -->
+  <ion-searchbar placeholder="Search for Pet" [(ngModel)]="petFilter" ></ion-searchbar>
   <!-- Displays the current matched list -->
   <ion-list>
     <ion-item *ngFor="let pet of petFilterMatch">
       <ion-icon name="paw-outline" slot="start"></ion-icon>
       <ion-label>{{pet.name}}</ion-label>
       <ion-buttons>
-        <ion-button (click)="checkIn(pet)">Check In</ion-button>
         <ion-button (click)="checkOut(pet)">Check Out</ion-button>
+        <ion-button (click)="checkIn(pet)">Check In</ion-button>
       </ion-buttons>
     </ion-item>
   </ion-list>
@@ -34,11 +35,16 @@
       <ion-label>Pets Currently Checked Out:</ion-label>
     </ion-list-header>
 
+    <ion-item *ngIf="checkedOutPets.size === 0">
+      <h1>All Pets are in the Kennel</h1>
+    </ion-item>
+
     <ion-item *ngFor="let pet of checkedOutPets" class="checked-out-pet" color="primary">
       <ion-card >
         <ion-item>
           <ion-icon name="paw-outline" slot="start"></ion-icon>
-          <ion-label>{{pet.name | uppercase}}</ion-label>
+          <ion-label>{{pet.name | titlecase}}</ion-label>
+          <ion-label>Checked Out at: {{pet.checkIns[0].actualCheckOut| date: 'short'}}</ion-label>
           <ion-button fill="outline" slot="end" (click)="checkIn(pet)">Check Back In</ion-button>
         </ion-item>
 
@@ -65,7 +71,7 @@
           <ion-icon name="paw-outline" slot="start"></ion-icon>
           <ion-label>{{pet.name | uppercase}}</ion-label>
           <ion-item>Last Check Out: 12/12/12 1:00 pm</ion-item>
-          <ion-item>Number of CheckIns Today: 1</ion-item>
+          <ion-item>Number of CheckIns Today: {{pet.checkIns.length - 1}}</ion-item>
         </ion-item>
       </ion-card>
     </ion-item>
