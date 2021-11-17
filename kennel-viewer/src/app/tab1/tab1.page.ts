@@ -13,26 +13,26 @@ export class Tab1Page implements OnInit {
   petFilterMatch: Pet[] = [];
   checkedOutPets: Pet[] = [];
 
-  _petFilter: string = '';
-
-  get petFilter(){
-    return this._petFilter;
-  }
-
-  set petFilter(value: string){
-    this._petFilter = value
-  }
+  petFilter: string = '';
 
   constructor(public kennelService: KennelService) {}
   
   
   ngOnInit(): void {
-    this.petFilterMatch = MOCK_SEARCHED_PETS;
+    this.petFilterMatch = [];
     this.checkedOutPets = MOCK_CHECKED_OUT_PETS;
   }
 
-  search(name: string){
-    console.log(name);
+  search(value: string){
+    console.log(value);
+    this.petFilter = value;
+    this.petFilterMatch = this.petFilter ? this.performFilter(this.petFilter) : [];
+  }
+
+  performFilter(petFilter: string){
+    petFilter = petFilter.toLocaleLowerCase();
+    return this.kennelService.pets
+      .filter((pet: Pet) => pet.name.toLocaleLowerCase().includes(petFilter));
   }
 
 }
