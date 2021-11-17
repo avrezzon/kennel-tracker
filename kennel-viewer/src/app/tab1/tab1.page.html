@@ -1,0 +1,73 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Springs Rescue Mission: Kennel Tracker
+      <!-- maybe add the mission logo here -->
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Check In / Check Out</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!--Holds the value of the current searched text-->
+  <ion-searchbar placeholder="Search For Pet Name" (ionChange)="search(petName.value)" petName.value="" #petName></ion-searchbar>
+  <!-- Displays the current matched list -->
+  <ion-list>
+    <ion-item *ngFor="let pet of petFilterMatch">
+      <ion-label>{{pet.name}}</ion-label>
+      <ion-buttons>
+        <ion-button>Check In</ion-button>
+        <ion-button>Check Out</ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+
+  <!-- Currently out waiting to be checked in pets -->
+  <ion-list>
+    <ion-list-header>
+      <ion-label>Pets Currently Checked Out:</ion-label>
+    </ion-list-header>
+
+    <ion-item *ngFor="let pet of checkedOutPets" class="checked-out-pet" color="primary">
+      <ion-card >
+        <ion-item>
+          <ion-icon name="paw-outline" slot="start"></ion-icon>
+          <ion-label>{{pet.name | uppercase}}</ion-label>
+          <ion-button fill="outline" slot="end">Check Back In</ion-button>
+        </ion-item>
+
+        <ion-card-content>
+          <ion-item *ngFor="let owner of pet.owners">
+            <ion-icon slot="start" name="person-outline"></ion-icon>
+            <ion-label>{{owner.firstName | titlecase}} {{owner.lastName | titlecase}}: #{{owner.clientId}}</ion-label>
+            <ion-label>Contact info: {{owner.phone}}</ion-label>
+          </ion-item>
+        </ion-card-content>
+      </ion-card>
+    </ion-item>
+
+  </ion-list>
+
+  <ion-list>
+    <ion-list-header>
+      <ion-label>Pets Needing to be Checked Out:</ion-label>
+    </ion-list-header>
+
+    <ion-item *ngFor="let pet of checkedOutPets">
+      <ion-card>
+        <ion-item>
+          <ion-icon name="paw-outline" slot="start"></ion-icon>
+          <ion-label>{{pet.name | uppercase}}</ion-label>
+          <ion-item>Last Check Out: 12/12/12 1:00 pm</ion-item>
+          <ion-item>Number of CheckIns Today: 1</ion-item>
+        </ion-item>
+      </ion-card>
+    </ion-item>
+
+  </ion-list>
+</ion-content>

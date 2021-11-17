@@ -1,0 +1,7 @@
+{
+  "name": "kennel-viewer",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
