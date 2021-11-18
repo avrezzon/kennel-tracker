@@ -15,16 +15,20 @@
 
   <ion-list>
     <ion-list-header>
-      Kennel Details:
+      <h1>Kennel Details:</h1>
     </ion-list-header>
-    <ion-card *ngFor="let kennel of kennelService.kennelLayout">
-      <ion-item>
+
+    <ion-searchbar placeholder="Search for Pet" [(ngModel)]="petFilter" (ionChange)="search(petName.value)" petName.value="" #petName></ion-searchbar>
+    <ion-card *ngFor="let kennel of kennelFilterMatch">
+      
+      <ion-item class="kennel-outline">
         <ion-icon name='cube-outline' slot="start"></ion-icon>
         <ion-label>Cage # {{kennel.cageNumber}}</ion-label>
-
       </ion-item>
-      <ion-card>
-        <ion-item>
+
+      <ion-card >
+       
+        <ion-item class="pet-details">
           <ion-icon name="paw-outline" slot="start"></ion-icon>
           <ion-card-title>{{kennel.pet.name}}: </ion-card-title>
           <ion-item slot="end">
@@ -35,7 +39,8 @@
           </ion-item>
 
         </ion-item>
-        <ion-card-content>
+       
+        <ion-card-content class="records">
           <ion-title>Records:</ion-title>
           <ion-row>
             <ion-col *ngFor="let times of kennel.pet.checkIns">
