@@ -13,12 +13,12 @@ import { Pet } from '../models/Pet';
 export class Tab1Page implements OnInit {
 
   petFilterMatch: Pet[];
-  petFilter: string = '';
+  petFilter?: string;
+
   checkedOutPets: Set<Pet>;
   petsApproachingTimeWindow: Set<Pet>;
   maxTimeInKennel: number;
   checkOutDuration: number;
-  timeWindow: number;
 
   constructor(public kennelService: KennelService,
     public alertCtrl: AlertController) { }
@@ -26,13 +26,14 @@ export class Tab1Page implements OnInit {
 
   ngOnInit(): void {
     this.petFilterMatch = [];
+    this.petFilter = '';
     this.checkedOutPets = new Set();
     this.petsApproachingTimeWindow = new Set();
     this.maxTimeInKennel = 180;
     this.checkOutDuration = .1;
-    this.timeWindow = 5;
   }
 
+  //TODO find some other way of searching possible name duplicates
   search(value: string) {
     console.log(value);
     this.petFilter = value;
@@ -83,13 +84,14 @@ export class Tab1Page implements OnInit {
   }
 
   checkOut(pet: Pet) {
+    const currTime = new Date();
     if (!this.checkedOutPets.has(pet)) {
       console.log('Checking out pet')
 
       const history = pet.checkIns;
 
       let lastRecord = history.pop();
-      lastRecord.actualCheckOut = new Date();
+      lastRecord.actualCheckOut = currTime;
 
       history.push(lastRecord);
 
@@ -98,7 +100,6 @@ export class Tab1Page implements OnInit {
     }
     this.petFilter = '';
   }
-
 
   petsCloseToCheckout(){
     //This is something that will be delegated to a hearbeat event from the timesheet-service

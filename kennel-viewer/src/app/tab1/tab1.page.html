@@ -15,8 +15,7 @@
   </ion-header>
 
   <!--Holds the value of the current searched text-->
-  <!-- (ionChange)="search(petName.value)" petName.value="" #petName -->
-  <ion-searchbar placeholder="Search for Pet" [(ngModel)]="petFilter" ></ion-searchbar>
+  <ion-searchbar placeholder="Search for Pet" [(ngModel)]="petFilter" (ionChange)="search(petName.value)" petName.value="" #petName></ion-searchbar>
   <!-- Displays the current matched list -->
   <ion-list>
     <ion-item *ngFor="let pet of petFilterMatch">

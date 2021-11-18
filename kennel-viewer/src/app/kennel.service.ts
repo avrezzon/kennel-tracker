@@ -8,11 +8,16 @@ import { Pet } from './models/Pet';
   providedIn: 'root'
 })
 export class KennelService {
-  kennelLayout?: Kennel[];
+
+  availableKennels: number;
+  kennelLayout: Kennel[] =  MOCK_KENNEL_LAYOUT;;
   pets: Pet[];
   owners: Client[];
   checkOutDuration: number = 30;
   maxTimeInKennel: number = 180;
+    
+  checkedOutPets: Set<Pet>;
+  petsApproachingTimeWindow: Set<Pet>;
 
   constructor() {
     this.getKennel();

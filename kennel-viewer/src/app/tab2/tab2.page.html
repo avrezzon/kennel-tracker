@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 2
+      Kennel/Pet Information
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,9 +9,81 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
+      <ion-title size="large">Kennel/Pet Information</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+  <ion-list>
+    <ion-list-header>
+      Kennel Details:
+    </ion-list-header>
+    <ion-card *ngFor="let kennel of kennelService.kennelLayout">
+      <ion-item>
+        <ion-icon name='cube-outline' slot="start"></ion-icon>
+        <ion-label>Cage # {{kennel.cageNumber}}</ion-label>
+
+      </ion-item>
+      <ion-card>
+        <ion-item>
+          <ion-icon name="paw-outline" slot="start"></ion-icon>
+          <ion-card-title>{{kennel.pet.name}}: </ion-card-title>
+          <ion-item slot="end">
+            <ion-item>Type: {{kennel.pet.type}}</ion-item>
+            <ion-item>Breed: {{kennel.pet.breed}}</ion-item>
+            <ion-item>Age: {{kennel.pet.age}}</ion-item>
+            <ion-item>Violations: {{kennel.pet.violations}}</ion-item>
+          </ion-item>
+
+        </ion-item>
+        <ion-card-content>
+          <ion-title>Records:</ion-title>
+          <ion-row>
+            <ion-col *ngFor="let times of kennel.pet.checkIns">
+              <ion-item>Checked Out @ {{times.checkOut | date: 'short'}}</ion-item>
+              <ion-item *ngIf="times.actualCheckOut">Actual Check Out @ {{times.actualCheckOut | date: 'short'}}
+              </ion-item>
+              <ion-item *ngIf="times.checkIn">Checked In @ {{times.checkIn | date: 'short'}}</ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-card-content>
+
+        <ion-row>
+          <ion-col *ngFor="let owner of kennel.pet.owners">
+            <ion-card>
+              <ion-card-header>
+                <ion-card-subtitle>Owner</ion-card-subtitle>
+                <ion-card-title>{{owner.firstName | titlecase}} {{owner.lastName | titlecase}}</ion-card-title>
+              </ion-card-header>
+              <ion-card-content>
+                <ion-item slot="end">
+                  <ion-item>Shelter Type: {{owner.shelterType}}</ion-item>
+                  <ion-item>Bed Number: {{owner.bedNumber}}</ion-item>
+                  <ion-item>Phone Number: {{owner.phone}}</ion-item>
+                </ion-item>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+        
+        <ion-row>
+          <ion-col *ngFor="let contact of kennel.pet.emergencyContacts">
+            <ion-card>
+              <ion-card-header>
+                <ion-card-subtitle>Emergency Contact</ion-card-subtitle>
+                <ion-card-title>{{contact.firstName | titlecase}} {{contact.lastName | titlecase}}</ion-card-title>
+              </ion-card-header>
+              <ion-card-content>
+                <ion-item slot="end">
+                  <ion-item>Phone Number: {{contact.phone}}</ion-item>
+                </ion-item>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+
+      </ion-card>
+
+    </ion-card>
+  </ion-list>
+
 </ion-content>
