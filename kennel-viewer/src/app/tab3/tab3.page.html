@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 3
+      Registration
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,9 +9,150 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
+      <ion-title size="large">Registration</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>Register New Pet</ion-card-subtitle>
+      <ion-card-title>Pet Information</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <form [formGroup]="petForm" (ngSubmit)="onSubmit()">
+
+        <ion-item>
+          <ion-input placeholder="Pet Name" formControlName="name"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input placeholder="Type of Pet: i.e. Dog" formControlName="type"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input placeholder="Breed" formControlName="breed"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input placeholder="Age" type="number" formControlName="name"></ion-input>
+        </ion-item>
+
+        <div formArrayName="owners">
+
+          <ion-item>
+            <ion-icon name="person-outline" slot="start"></ion-icon>
+            <ion-card-subtitle>Owner Details: </ion-card-subtitle>
+          </ion-item>
+          <ion-list>
+            <ion-card *ngFor="let owner of owners.controls">
+              <ion-item formGroupName="owner">
+                <ion-item>
+                  <ion-input placeholder="Client Id#:" formControlName="clientId"></ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-input placeholder="First Name:" formControlName="firstName"></ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-input placeholder="Last Name:" formControlName="lastName"></ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-input placeholder="Owner's Phone #:" formControlName="phone"></ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-input placeholder="Shelter Type:" formControlName="shelterType"></ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-input placeholder="Bed #" formControlName="bedNumber"></ion-input>
+                </ion-item>
+              </ion-item>
+            </ion-card>
+          </ion-list>
+
+          <ion-button (click)="addOwner()" fill="clear" shape="round">
+            Add Another Owner
+          </ion-button>
+        </div>
+
+        <ion-button type="submit" expand="block" color="primary" shape="round">
+          Register Pet
+        </ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
+
+
+  <ion-button shape="round" (click)="this.debug = !this.debug">View Debug Ion Components</ion-button>
+
+  <div *ngIf="debug">
+
+
+    <!-- Input with placeholder -->
+    <ion-item>
+      <ion-input placeholder="Enter Input"></ion-input>
+    </ion-item>
+
+    <!-- Number type input -->
+    <ion-input type="number" placeholder="Enter Input"></ion-input>
+
+    <ion-item>
+      <ion-label position="floating">Floating Label</ion-label>
+      <ion-input></ion-input>
+    </ion-item>fab
+
+
+    <!-- Default -->
+    <ion-button>Default</ion-button>
+
+    <!-- Anchor -->
+    <ion-button href="#">Anchor</ion-button>
+
+    <!-- Colors -->
+    <ion-button color="primary">Primary</ion-button>
+    <ion-button color="secondary">Secondary</ion-button>
+    <ion-button color="tertiary">Tertiary</ion-button>
+    <ion-button color="success">Success</ion-button>
+    <ion-button color="warning">Warning</ion-button>
+    <ion-button color="danger">Danger</ion-button>
+    <ion-button color="light">Light</ion-button>
+    <ion-button color="medium">Medium</ion-button>
+    <ion-button color="dark">Dark</ion-button>
+
+    <!-- Expand -->
+    <ion-button expand="full">Full Button</ion-button>
+    <ion-button expand="block">Block Button</ion-button>
+
+    <!-- Round -->
+    <ion-button shape="round">Round Button</ion-button>
+
+    <!-- Fill -->
+    <ion-button expand="full" fill="outline">Outline + Full</ion-button>
+    <ion-button expand="block" fill="outline">Outline + Block</ion-button>
+    <ion-button shape="round" fill="outline">Outline + Round</ion-button>
+
+    <!-- Icons -->
+    <ion-button>
+      <ion-icon slot="start" name="star"></ion-icon>
+      Left Icon
+    </ion-button>
+
+    <ion-button>
+      Right Icon
+      <ion-icon slot="end" name="star"></ion-icon>
+    </ion-button>
+
+    <ion-button>
+      <ion-icon slot="icon-only" name="star"></ion-icon>
+    </ion-button>
+
+    <!-- Sizes -->
+    <ion-button size="large">Large</ion-button>
+    <ion-button>Default</ion-button>
+    <ion-button size="small">Small</ion-button>
+  </div>
+
 </ion-content>

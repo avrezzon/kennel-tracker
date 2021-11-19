@@ -3,7 +3,7 @@ import { EmergencyContact } from "./EmergencyContact";
 import { Client } from "./Client";
 
 export interface Pet{
-    id: number;
+    id: number; //Find some way to generate the value
     name: string;
     type: string; // Potential enum, default to dog normally
     breed: string; 
