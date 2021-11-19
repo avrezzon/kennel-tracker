@@ -16,7 +16,11 @@
   <ion-card>
     <ion-card-header>
       <ion-card-subtitle>Register New Pet</ion-card-subtitle>
-      <ion-card-title>Pet Information</ion-card-title>
+      <ion-item>
+        <ion-icon name="paw-outline" slot="start"></ion-icon>
+        <ion-card-title>Pet Information</ion-card-title>
+      </ion-item>
+
     </ion-card-header>
     <ion-card-content>
       <form [formGroup]="petForm" (ngSubmit)="onSubmit()">
@@ -41,11 +45,11 @@
 
           <ion-item>
             <ion-icon name="person-outline" slot="start"></ion-icon>
-            <ion-card-subtitle>Owner Details: </ion-card-subtitle>
+            <ion-card-title>Owner Details: </ion-card-title>
           </ion-item>
           <ion-list>
-            <ion-card *ngFor="let owner of owners.controls">
-              <ion-item formGroupName="owner">
+            <ion-card *ngFor="let owner of owners.controls; let i = index">
+              <ion-item [formGroupName]="i">
                 <ion-item>
                   <ion-input placeholder="Client Id#:" formControlName="clientId"></ion-input>
                 </ion-item>
@@ -69,6 +73,12 @@
                 <ion-item>
                   <ion-input placeholder="Bed #" formControlName="bedNumber"></ion-input>
                 </ion-item>
+
+                <ion-item slot="end">
+                  <ion-button (click)="removeOwner(i)">
+                    <ion-icon name="close-circle-outline"></ion-icon>
+                  </ion-button>
+                </ion-item>
               </ion-item>
             </ion-card>
           </ion-list>
@@ -77,6 +87,42 @@
             Add Another Owner
           </ion-button>
         </div>
+
+        <div formArrayName="emergencyContacts">
+
+          <ion-item>
+            <ion-icon name="person-outline" slot="start"></ion-icon>
+            <ion-card-title>Emergency Contact Details: </ion-card-title>
+          </ion-item>
+          <ion-list>
+            <ion-card *ngFor="let owner of emergencyContacts.controls; let i = index">
+              <ion-item [formGroupName]="i">
+                <ion-item>
+                  <ion-input placeholder="First Name:" formControlName="firstName"></ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-input placeholder="Last Name:" formControlName="lastName"></ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-input placeholder="Phone #:" formControlName="phone"></ion-input>
+                </ion-item>
+
+                <ion-item slot="end">
+                  <ion-button (click)="removeEmergencyContact(i)">
+                    <ion-icon name="close-circle-outline"></ion-icon>
+                  </ion-button>
+                </ion-item>
+              </ion-item>
+            </ion-card>
+          </ion-list>
+
+          <ion-button (click)="addEmergencyContact()" fill="clear" shape="round">
+            Add Another Emergency Contact
+          </ion-button>
+        </div>
+
 
         <ion-button type="submit" expand="block" color="primary" shape="round">
           Register Pet

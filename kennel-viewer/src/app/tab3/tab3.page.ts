@@ -9,7 +9,7 @@ import { connectableObservableDescriptor } from 'rxjs/internal/observable/Connec
 })
 export class Tab3Page implements OnInit {
 
-  debug: boolean = true;
+  debug: boolean = false;
 
   petForm = this.fb.group({
     // TODO find a way to generate new id, maybe have that as a token from the server
@@ -27,7 +27,14 @@ export class Tab3Page implements OnInit {
         bedNumber: ['']
       })
     ]),
-    emergencyContacts: this.fb.array(['']),
+    emergencyContacts: this.fb.array([
+      this.fb.group({
+        id: ['', Validators.required],
+        firstName: ['', Validators.required, Validators.minLength(3), Validators.maxLength(20)],
+        lastName: ['', Validators.required, Validators.minLength(2), Validators.maxLength(20)],
+        phone: ['', Validators.required],
+      })
+    ]),
   });
 
   constructor(private fb: FormBuilder) { }
@@ -48,6 +55,10 @@ export class Tab3Page implements OnInit {
     this.owners.push(this.newOwner());
   }
 
+  removeOwner(index){
+    this.owners.removeAt(index);
+  }
+
   newOwner() {
     return this.fb.group({
       clientId: ['', Validators.required],
@@ -59,6 +70,28 @@ export class Tab3Page implements OnInit {
     });
   }
 
+  get emergencyContacts() {
+    return this.petForm.get('emergencyContacts') as FormArray;
+  }
+
+  addEmergencyContact() {
+    this.emergencyContacts.push(this.newOwner());
+  }
+
+  removeEmergencyContact(index){
+    this.emergencyContacts.removeAt(index);
+  }
+
+  newEmergencyContact() {
+    return this.fb.group({
+      id: ['', Validators.required],
+      firstName: ['', Validators.required, Validators.minLength(3), Validators.maxLength(20)],
+      lastName: ['', Validators.required, Validators.minLength(2), Validators.maxLength(20)],
+      phone: ['', Validators.required],
+    });
+  }
+
   
+
 
 }
