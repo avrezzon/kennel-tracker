@@ -19,6 +19,9 @@ export class KennelService {
   checkedOutPets: Set<Pet>;
   petsApproachingTimeWindow: Set<Pet>;
 
+  nextPetId: number;
+  nextEmergencyId: number;
+
   constructor() {
     this.getKennel();
    }
@@ -28,6 +31,10 @@ export class KennelService {
     this.pets = MOCK_KENNEL_LAYOUT.map(x => x.pet);
     console.log(this.pets);
     //this.owners = MOCK_KENNEL_LAYOUT.map(x => x.pet)
+  }
+
+  registerPet(petRegistration: any){
+    
   }
 }
 

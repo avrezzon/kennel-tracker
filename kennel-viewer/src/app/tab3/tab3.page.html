@@ -7,6 +7,8 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+
+  
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Registration</ion-title>
@@ -128,6 +130,9 @@
           Register Pet
         </ion-button>
       </form>
+
+      <p>{{petForm.value|  json}}</p>
+
     </ion-card-content>
   </ion-card>
 

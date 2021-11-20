@@ -10,7 +10,7 @@ import { connectableObservableDescriptor } from 'rxjs/internal/observable/Connec
 export class Tab3Page implements OnInit {
 
   debug: boolean = false;
-
+  
   petForm = this.fb.group({
     // TODO find a way to generate new id, maybe have that as a token from the server
     name: ['', Validators.required, Validators.minLength(2), Validators.maxLength(20)],
@@ -29,7 +29,6 @@ export class Tab3Page implements OnInit {
     ]),
     emergencyContacts: this.fb.array([
       this.fb.group({
-        id: ['', Validators.required],
         firstName: ['', Validators.required, Validators.minLength(3), Validators.maxLength(20)],
         lastName: ['', Validators.required, Validators.minLength(2), Validators.maxLength(20)],
         phone: ['', Validators.required],
